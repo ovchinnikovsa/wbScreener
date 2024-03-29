@@ -1,0 +1,22 @@
+{
+    "name": "ovchie/wbscreen",
+    "description": "Screening wb top positions",
+    "type": "project",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "modules\\classes\\": "modules/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ovchie",
+            "email": "ov4innikovsa@yandex.ru"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {
+        "php": ">=7.2.5",
+        "ext-pdo": "*"
+    }
+}

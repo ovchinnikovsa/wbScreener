@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    # image: nginx:alpine
+    image: nginx:stable-alpine3.17-slim
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 8093:80
+    depends_on:
+      - app
+
+  app:
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/php/composer.json:/var/www/html/composer.json
+      - ./docker/php/composer.lock:/var/www/html/composer.lock
+      - ./docker/sqlite/database.db:/var/www/html/database.db:rw
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    expose:
+      - 9000
