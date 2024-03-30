@@ -4,11 +4,10 @@ namespace modules\classes\model;
 
 use modules\classes\database\DatabaseFacade;
 
-class ProductModel
-{
 
-    // TODO: add uniq option at position
-    private static string $tableName = 'products';
+class KeyWordModel
+{
+    private static string $tableName = 'key_word';
 
     public static function getAll()
     {
@@ -22,17 +21,14 @@ class ProductModel
         return DatabaseFacade::fetchOne($query, [$id]);
     }
 
-    public static function create(int $key_word, int $position, string $name, int $product_article): bool
+    public static function create(string $key_word): bool
     {
-        if (empty($key_word) || empty($position) || empty($name) || empty($product_article)) {
+        if (empty($key_word)) {
             return false;
         }
 
         return DatabaseFacade::insert(self::$tableName, [
-            'key_word' => 1,
-            'position' => $position,
-            'name' => $name,
-            'product_article' => $product_article
+            'word' => $key_word,
         ]);
     }
 

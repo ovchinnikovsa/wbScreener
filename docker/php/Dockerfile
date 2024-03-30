@@ -8,11 +8,10 @@ RUN docker-php-ext-install curl pdo
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./docker/sqlite/database.db /var/www/db/database.db
-COPY ./docker/php/composer.json /var/www/html/composer.json
-COPY ./docker/php/composer.lock /var/www/html/composer.lock
+# COPY ./docker/php/composer.json /var/www/html/composer.json
+# COPY ./docker/php/composer.lock /var/www/html/composer.lock
 
-RUN chown -R www-data:www-data /var/www
-RUN chmod 666 /var/www/db/database.db
+
 
 WORKDIR /var/www/html
 

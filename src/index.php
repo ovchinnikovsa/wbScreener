@@ -7,6 +7,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/vendor/autoload.php';
 
 use modules\classes\model\ProductModel;
+use modules\classes\model\KeyWordModel;
 
 echo 'Hello! <pre>';
 
@@ -19,8 +20,10 @@ $ch = curl_init();
 $key_word = http_build_query(['query' => 'черная футболка']);
 
 // $res = ProductModel::create('черная футболка', 1, 'черная футболка name', 123132513);
-$res = ProductModel::getAll();
+// $res = ProductModel::getAll();
+// var_dump($res);
 
+$res = KeyWordModel::create('черная футболка');
 var_dump($res);
 
 die();

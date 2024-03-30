@@ -17,6 +17,9 @@ services:
       dockerfile: ./docker/php/Dockerfile
     volumes:
       - ./src:/var/www/html
+      - ./docker/php/composer.json:/var/www/html/composer.json
+      - ./docker/php/composer.lock:/var/www/html/composer.lock
       - ./docker/sqlite/database.db:/var/www/db/database.db
+    command: bash -c "chown -R www-data:www-data /var/www && chmod 666 /var/www/db/database.db && php-fpm"
     expose:
       - 9000
