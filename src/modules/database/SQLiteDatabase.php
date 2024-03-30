@@ -7,7 +7,7 @@ use \PDO;
 class SQLiteDatabase
 {
     private $db;
-    private static $db_path = '/var/www/html/database.db';
+    private static $db_path = '/var/www/db/database.db';
 
     public function __construct()
     {

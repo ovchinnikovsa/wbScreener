@@ -18,9 +18,11 @@ echo '<br>';
 $ch = curl_init();
 $key_word = http_build_query(['query' => 'черная футболка']);
 
-$res = ProductModel::create('черная футболка', 1, 'черная футболка name', 123132513);
+// $res = ProductModel::create('черная футболка', 1, 'черная футболка name', 123132513);
+$res = ProductModel::getAll();
 
 var_dump($res);
+
 die();
 
 $url = 'https://search.wb.ru/exactmatch/ru/male/v5/search?ab_testid=pindex&appType=1&curr=rub&dest=123585979&' . $key_word . '&resultset=catalog&sort=popular&spp=30&suppressSpellcheck=false&uclusters=1&uiv=2&uv=KIisQKx3KPqrQq65pECuQDFCrGQuryzQreEpQq2MKh8wOSMSrUSx9KjNL2Whgi-yLvAi5qY7K6aplyufMX0oda7DHiYuNinqqskjWqW9rHulzK2sLXssI6tmIcUuj7HOLB4wwq2vKVwwpSfNK8YqN6pQMHCvfS6PsiWuLy4rMDIu2KqCLsOqVq2rMRwoxa_Xqc0rgS6arcuu8KZWLUmt-6_8rZQwxyyFGv-eT7DHJeovrbGkqZWrT7ASrK-wUqtMKFUwDilwK3Wcuq0tKE6pabAmo3WomqYCKYYp8axJINsxF7DGqdIoLS51KnYsyq5JFm0tDCxUJ9oZ0LCnrYKgxw';
@@ -34,7 +36,7 @@ $products = $data['data']['products'] ?? [];
 foreach ($products as $key => $item) {
     echo $key . ' ' . ($item['name'] ?? 'no name') . ' ' . (string) ($item['id'] ?? 'no id') . ' ' . PHP_EOL;
     echo '<br>';
-    // ProductModel::create('черная футболка', $key, $item['name'] ?? '', $item['id'] ?? 0);
+    var_dump(ProductModel::create('черная футболка', $key, $item['name'] ?? '', $item['id'] ?? 0));
     echo '<br>';
     echo '<br>';
 }

@@ -6,11 +6,13 @@ use modules\classes\database\DatabaseFacade;
 
 class ProductModel
 {
+
+    // TODO: add uniq option at position
     private static string $tableName = 'products';
 
-    public function getAll()
+    public static function getAll()
     {
-        $query = "SELECT * FROM $this->tableName";
+        $query = 'SELECT * FROM ' . self::$tableName;
         return DatabaseFacade::fetchAll($query);
     }
 
