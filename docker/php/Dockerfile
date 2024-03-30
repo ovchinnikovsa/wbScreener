@@ -7,7 +7,9 @@ RUN docker-php-ext-install curl pdo
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN chown -R www-data:www-data /var/www/html
+# COPY ./docker/php/composer.json composer.json
+# COPY ./docker/php/composer.lock composer.lock
+# COPY ./docker/sqlite/database.db database.db
 
 # RUN composer install --no-dev --no-interactive --no-autoloader --no-scripts
 # RUN composer dump-autoload --optimize

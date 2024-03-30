@@ -13,11 +13,11 @@ services:
       - app
 
   app:
+    # user: '1000:1000'
     volumes:
-      - ./src:/var/www/html
-      - ./docker/php/composer.json:/var/www/html/composer.json
-      - ./docker/php/composer.lock:/var/www/html/composer.lock
-      - ./docker/sqlite/database.db:/var/www/html/database.db:rw
+      - ./src:/var/www/html:rw
+      # - ./docker/sqlite/database.db:/var/www/html/database.db
+    # command: bash -c 'chmod 764 /var/www/html/database.db'
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
