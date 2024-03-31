@@ -1,3 +1,5 @@
+include .env
+
 run:
 	docker-compose up -d
 
@@ -24,3 +26,9 @@ composer-update:
 
 phpunit:
 	docker-compose exec --user root app phpunit
+
+db_dump:
+	docker-compose exec mariadb sh -c "exec mariadb-dump -u$(MARIADB_USER) -p$(MARIADB_ROOT_PASSWORD) $(MARIADB_DATABASE) > /var/backups/db.sql"
+
+db_restore:
+	docker-compose exec -i mariadb sh -c "exec mysql --user=$(MARIADB_USER) --password=$(MARIADB_ROOT_PASSWORD) $(MARIADB_DATABASE) < /var/backups/db.sql"

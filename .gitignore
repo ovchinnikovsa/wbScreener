@@ -1,1 +1,9 @@
 /.vscode
+vendor
+!/docker/mariadb/dump/db.sql
+!/docker/conf/db.ini
+!/src/conf.ini
+src/readme.md
+src/composer*
+src/.*
+docker/mariadb/database/

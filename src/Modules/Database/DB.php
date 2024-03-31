@@ -1,10 +1,10 @@
 <?php
 
-namespace modules\classes\database;
+namespace Modules\Database;
 
-use modules\classes\database\SQLiteDatabase;
+use Modules\Database\MySQLDatabase;
 
-class DatabaseFacade
+class DB
 {
     private static $instance;
 
@@ -14,24 +14,39 @@ class DatabaseFacade
 
     public static function getInstance()
     {
-        if (!self::$instance instanceof SQLiteDatabase) {
-            self::$instance = new SQLiteDatabase();
+        if (!self::$instance instanceof MySQLDatabase) {
+            self::$instance = new MySQLDatabase();
         }
         return self::$instance;
+    }
+
+    public static function begin(): void
+    {
+        self::$instance->begin();
+    }
+
+    public static function rollback(): void
+    {
+        self::$instance->rollback();
+    }
+
+    public static function commit(): void
+    {
+        self::$instance->commit();
     }
 
     public static function executeQuery(string $query, array $params = [])
     {
         $instance = self::getInstance();
         try {
-            $stmt = $instance->executeQuery($query, $params);
+            $stmt = $instance->query($query, $params);
         } catch (\PDOException $e) {
             throw new \PDOException('Database query execution error', 0, $e);
         }
         return $stmt;
     }
 
-    public static function fetchAll( string $query, array $params = [])
+    public static function fetchAll(string $query, array $params = [])
     {
         $instance = self::getInstance();
         try {
@@ -75,7 +90,7 @@ class DatabaseFacade
         return $count;
     }
 
-    public static function delete(string $table, string  $where, array $params = [])
+    public static function delete(string $table, string $where, array $params = [])
     {
         $instance = self::getInstance();
         try {
