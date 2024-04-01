@@ -38,7 +38,6 @@ class MySQLDatabase extends DatabaseInterface
 
     protected function query($sql, $params = [])
     {
-
         $stmt = $this->db->prepare($sql . ';');
         $stmt->execute($params);
         return $stmt;

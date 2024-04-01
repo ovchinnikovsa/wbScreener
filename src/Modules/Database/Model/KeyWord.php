@@ -33,8 +33,16 @@ class KeyWord
 
     public static function getIdByKeyWord(string $key_word): int
     {
-        $id = DB::fetchOne("SELECT id FROM " . self::$tableName . " WHERE word = ?", [$key_word]);
+        $id = DB::fetchOne("SELECT id FROM
+        " . self::$tableName . " WHERE word = ?", [$key_word]);
         return (int) $id ?? 0;
+    }
+
+    public static function getById(int $id): string
+    {
+        $key_word = DB::fetchOne("SELECT word FROM
+        " . self::$tableName . " WHERE id = ?", [$id]);
+        return (string) $key_word ?? '';
     }
 
     public function delete(int $id)

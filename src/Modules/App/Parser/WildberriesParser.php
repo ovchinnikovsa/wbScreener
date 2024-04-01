@@ -38,9 +38,8 @@ class WildberriesParser
             $this->validateJson($json);
             $this->saveProducts($json);
         } catch (\Exception $e) {
-            throw new \RuntimeException('Parse error', 0, $e);
+            throw new \RuntimeException('Parse error: ' . $e->getMessage(), 0, $e);
         }
-
     }
 
     private function fetchJson(): string
@@ -90,7 +89,7 @@ class WildberriesParser
             Product::add(
                 $this->key_word_id,
                 $key + 1,
-                $product['name'],
+                $product['name'] ?? '',
                 $product['id'] ?? 0,
             );
         }

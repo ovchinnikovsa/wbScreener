@@ -28,7 +28,7 @@ class Product
         }
 
         $id = self::getRowByArticleAndKeyWord($product_article, $key_word_id);
-        if ($id) {
+        if ($id > 0) {
             return self::update($id, [
                 'position' => $position,
                 'name' => $name,
@@ -45,7 +45,7 @@ class Product
 
     public static function update(int $id, array $data)
     {
-        $where = 'id = ?';
+        $where = 'id = ' . $id;
         return DB::update(self::$tableName, $data, $where);
     }
 
@@ -58,39 +58,37 @@ class Product
 
     public static function getActiveRowsByArticle(int $article): array
     {
-        $query = 'SELECT * FROM ' . self::$tableName . ' WHERE `article` = ? AND `position` <> ?';
+        $query = 'SELECT * FROM ' . self::$tableName . ' WHERE `product_article` = ? AND `position` <> ?';
         $params = [
-            'article' => $article,
-            'position' => 0,
+            $article,
+            0,
         ];
         return DB::fetchAll($query, $params);
     }
 
-    public static function setPositionZero(int $key_word_id): array
+    public static function setPositionZero(int $key_word_id): bool
     {
         $where = 'key_word_id = ?';
         return DB::update(self::$tableName, [
-            'key_word_id' =>
-                $key_word_id
-        ], $where);
+            'position' => 0
+        ], 'key_word_id = ' . $key_word_id);
     }
 
     public static function getRowByArticleAndKeyWord(int $article, int $key_word_id): int
     {
-        $query = "SELECT `id` FROM " . self::$tableName . " WHERE `article` = ? AND `key_word_id` = ?  AND `position` <> ?";
+        $query = "SELECT `id` FROM " . self::$tableName . " WHERE `product_article` = ? AND `key_word_id` = ?";
         return DB::fetchOne($query, [
-            'article' => $article,
-            'key_word_id' => $key_word_id,
-            'position' => 0,
+            $article,
+            $key_word_id,
         ]);
     }
 
-    public static function getRowByKeyWord(int $key_word_id): int
+    public static function getRowByKeyWord(int $key_word_id): array
     {
-        $query = "SELECT `id` FROM " . self::$tableName . " WHERE `key_word_id` = ?  AND `position` <> ?";
-        return DB::fetchOne($query, [
-            'key_word_id' => $key_word_id,
-            'position' => 0,
+        $query = "SELECT `id`, `key_word_id`, `position`, `name`, `product_article` FROM " . self::$tableName . " WHERE `key_word_id` = ?  AND `position` <> ?";
+        return DB::fetchAll($query, [
+            $key_word_id,
+            0,
         ]);
     }
 }

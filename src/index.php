@@ -13,8 +13,8 @@ use Modules\App\View\View;
 $router = new Router();
 
 $router->addRoute('/', [View::class, 'tryApi']);
-$router->addRoute('get', [ProductAPI::class, 'getProducts']);
-$router->addRoute('get-new', [ProductAPI::class, 'getNewProducts']);
-$router->addRoute('get-article', [ProductAPI::class, 'getArticle']);
+$router->addRoute('getProducts', [ProductAPI::class, 'getProducts']);
+$router->addRoute('getNewProducts', [ProductAPI::class, 'getNewProducts']);
+$router->addRoute('getArticle', [ProductAPI::class, 'getArticle']);
 
 $router->sendResponse();

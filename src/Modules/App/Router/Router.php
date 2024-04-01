@@ -15,34 +15,54 @@ class Router
 
     public function sendResponse()
     {
-        $request_uri = $_SERVER['REQUEST_URI'];
-
-        $method = $_SERVER['REQUEST_METHOD'];
-        $params = $_GET['search'] ?? '';
-
-        $this->handleRequest($request_uri, $method, $params);
+        $query = self::getParsedQuery();
+        $this->handleRequest($query['method'], $query['params']);
     }
 
-    private function handleRequest($request_uri, $method, $params)
+    private function handleRequest($method, $params)
     {
-        $uri_parts = explode('/', trim($request_uri, '/'));
-        if ($uri_parts[0] === '')
-            $uri_parts[0] = '/';
 
-        $handler = $this->routes[$uri_parts[0]] ?? null;
+        $handler = $this->routes[$method] ?? null;
         if ($handler) {
             try {
                 $res = call_user_func_array($handler, [$params]);
-                http_response_code(200);
-                echo Json::encode($res);
+                Json::send($res);
             } catch (\Exception $e) {
-                http_response_code(404);
-                echo Json::encode(array('error' => 'Answer error, ' . $e));
+                Json::send([
+                    'error' => 'Answer error',
+                    'message' => $e->getMessage()
+                ], 404);
             }
-
         } else {
-            http_response_code(404);
-            echo Json::encode(array('error' => 'Not Found'));
+            Json::send([
+                'error' => 'Not Found'
+            ], 404);
         }
+    }
+
+    private static function getCurrentUrl(): string
+    {
+        $url = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+        $url .= "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        return $url;
+    }
+
+    private static function getParsedQuery(): array
+    {
+        $url = parse_url(self::getCurrentUrl());
+
+        $method = $url['path'] ?? '';
+        $method = explode('/', $method);
+        $method = $method[0] ?: $method[1];
+        $method = $method === '' ? '/' : $method;
+
+        $url_params = $url['query'] ?? '';
+        $url_params = urldecode($url_params);
+        parse_str($url_params, $params);
+
+        return [
+            'method' => $method,
+            'params' => $params,
+        ];
     }
 }

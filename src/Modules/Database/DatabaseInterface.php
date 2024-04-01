@@ -50,22 +50,24 @@ abstract class DatabaseInterface
         return $this->db->lastInsertId();
     }
 
-    public function update(string $table, array $data, string $where)
+    public function update(string $table, array $data, string $where): bool
     {
-        $setClause = implode(',', array_map(function ($column, $value) {
-            return "$column = ?";
-        }, array_keys($data), array_values($data)));
-        $query = "UPDATE $table SET $setClause WHERE $where";
-        $params = array_values($data);
-        $this->query($query, $params);
-        return $this->db->rowCount();
+        $setClauses = array_map(
+            fn($column) => "$column = ?",
+            array_keys($data)
+        );
+
+        $query = "UPDATE $table SET " . implode(', ', $setClauses)
+            . " WHERE $where";
+        $stmt = $this->query($query, array_values($data));
+        return ($stmt->rowCount() > 0);
     }
 
-    public function delete(string $table, string $where, array $params = []): int
+    public function delete(string $table, string $where, array $params = []): bool
     {
         $query = "DELETE FROM $table WHERE $where";
-        $this->query($query, $params);
-        return $this->db->rowCount();
+        $stmt = $this->query($query, $params);
+        return ($stmt->rowCount() > 0);
     }
 
     protected function loadEnvVariables()
