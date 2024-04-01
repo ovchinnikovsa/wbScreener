@@ -45,6 +45,7 @@ CREATE TABLE `products` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */
 ;
+ALTER TABLE `products` AUTO_INCREMENT = 1;
 --
 -- Table structure for table `key_word`
 --
@@ -57,3 +58,4 @@ CREATE TABLE IF NOT EXISTS `key_word` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */
 ;
+ALTER TABLE `key_word` AUTO_INCREMENT = 1;
